@@ -1,0 +1,379 @@
+/**
+* Parser for the Java annotations
+* Author: Pedro de Carvalho Gomes <pedrodcg@csc.kth.se>
+*/
+
+package stave.java.annotation;
+
+import java_cup.runtime.*;
+
+/* Preliminaries to set up and use the scanner.
+init with {: JavaAnnotationScanner.init(); :};
+scan with {: return JavaAnnotationScanner.next_token(); :};
+*/
+
+/**** Definitions of terminals ****/
+/* Reserved @ Words */
+terminal ATCAPACITY, ATCODE,      ATDEFAULTCAP, ATDEFAULTVAL;
+terminal ATINLINE,   ATOPERATION, ATPREDICATE,  ATRESOURCE;
+terminal ATSYNCTASK, ATSYNCBLOCK, ATTHREADTYPE, ATTHREAD;
+terminal ATOBJECT,    ATMAP,        ATVALUE;
+terminal ATMONITOR,  ATCONDVAR,   ATLOCK;
+/* Markings */
+terminal MAPS, TYPEOF;
+/* Identifiers and numbers */
+terminal ID, INT;
+/* Code Snippet */
+terminal CODE;
+
+/* Definition of non-terminals */
+non terminal STAnnotation, SyncBlockDecl, SyncTaskDecl, ThreadDecl;
+non terminal ResourceDecl, PredicateDecl, OperationDecl;
+non terminal DefaultValDecl, DefaultCapDecl;
+non terminal Ids, Ints, Codes;
+
+/* Definition of starting non-terminal */
+start with STAnnotation;
+
+STAnnotation	::=
+		ATSYNCBLOCK SyncBlockDecl:meta1
+		{:
+		RESULT = meta1;
+		:}
+
+		|
+		ATSYNCTASK SyncTaskDecl:meta1
+		{:
+		RESULT = meta1;
+		:}
+
+                |
+		ATTHREAD ThreadDecl:meta1
+                {:
+		RESULT = meta1;
+		:}
+
+		|
+		ATRESOURCE ResourceDecl:meta1
+                {:
+                ((MetaResource)meta1).concludeParse();
+		RESULT = meta1;
+		:}
+
+		|
+		ATPREDICATE PredicateDecl:meta1
+                {:
+		RESULT = meta1;
+		:}
+
+		|
+		ATOPERATION OperationDecl:meta1
+                {:
+		RESULT = meta1;
+		:}
+
+		|
+		ATDEFAULTVAL DefaultValDecl:meta1
+                {:
+		RESULT = meta1;
+		:}
+
+		|
+		ATDEFAULTCAP DefaultCapDecl:meta1
+                {:
+		RESULT = meta1;
+		:}
+
+		;
+
+DefaultCapDecl	::=
+		Ints:int1
+                {:
+		RESULT = new MetaDefault(MetaDefault.DefType.CAP, (Integer)int1);
+		:}
+
+		|
+                {:
+		RESULT = new MetaDefault(MetaDefault.DefType.CAP);
+		:}
+
+		;
+
+DefaultValDecl	::=
+                Ints:int1
+                {:
+		RESULT = new MetaDefault(MetaDefault.DefType.VAL, (Integer)int1);
+		:}
+
+		|
+                {:
+		RESULT = new MetaDefault(MetaDefault.DefType.VAL);
+		:}
+
+		;
+
+PredicateDecl	::=
+		ATINLINE PredicateDecl:meta1
+                {:
+		/* Set that the annotated method should be inlined. */
+		((MetaPredicate)meta1).setInline( true);
+		RESULT = meta1;
+		:}
+
+		|
+		ATMAP Ids:id1 MAPS Codes:code1 PredicateDecl:meta1
+                {:
+		/* Add string for code substitution from Java till SyncTask */
+                ((MetaPredicate)meta1).addIdMap((String) id1, (String) code1);
+		RESULT = meta1;
+		:}
+
+		|
+		ATCODE Codes:code1 PredicateDecl:meta1
+		{:
+                ((MetaPredicate)meta1).setSTCode( (String) code1);
+		RESULT = meta1;
+		:}
+
+		|
+                {:
+		RESULT = new MetaPredicate();
+		:}
+
+		;
+
+OperationDecl	::=
+		ATINLINE OperationDecl:meta1
+                {:
+		((MetaOperation)meta1).setInline( true);
+		RESULT = meta1;
+		:}
+
+		|
+		ATMAP Ids:id1 MAPS Codes:code1 OperationDecl:meta1
+                {:
+		/* Add string for code substitution from Java till SyncTask */
+                ((MetaOperation)meta1).addIdMap((String) id1, (String) code1);
+		RESULT = meta1;
+		:}
+
+		|
+		ATCODE Codes:code1 OperationDecl:meta1
+		{:
+                ((MetaOperation)meta1).setSTCode( (String) code1);
+		RESULT = meta1;
+		:}
+
+		|
+                {:
+		RESULT = new MetaOperation();
+		:}
+
+		;
+
+ResourceDecl	::=
+		Ids:id1 ResourceDecl:meta1
+                {:
+		((MetaResource)meta1).setId( (String) id1);
+		RESULT = meta1;
+		:}
+
+		|
+		ATOBJECT Ids:id1 ResourceDecl:meta1
+                {:
+		((MetaResource)meta1).setJavaObject( (String) id1);
+		RESULT = meta1;
+		:}
+
+		|
+		ATOBJECT Ids:id1 MAPS Ids:id2 ResourceDecl:meta1
+                {:
+		((MetaResource)meta1).setJavaObject( (String) id1);
+		((MetaResource)meta1).setSTVariable( (String) id2);
+		RESULT = meta1;
+		:}
+
+		|
+		ATVALUE Ids:id1 MAPS Ids:id2 ResourceDecl:meta1
+                {:
+                /* Collects the expression that returns the object's state, i.e., value */
+		((MetaResource)meta1).setPredicate( (String) id1, new stave.synctask.ast.VarNameExpr( (String) id2));
+		RESULT = meta1;
+		:}
+
+		|
+		ATCAPACITY Ids:id1 ResourceDecl:meta1
+                {:
+		((MetaResource)meta1).setCapacity( (String) id1);
+		RESULT = meta1;
+		:}
+
+		|
+		ATDEFAULTVAL Ints:int1 ResourceDecl:meta1
+                {:
+		((MetaResource)meta1).setDefaultVal( (Integer) int1);
+		RESULT = meta1;
+		:}
+
+		|
+		ATDEFAULTCAP Ints:int1 ResourceDecl:meta1
+                {:
+		((MetaResource)meta1).setDefaultCap( (Integer) int1);
+		RESULT = meta1;
+		:}
+
+		|
+                {:
+		RESULT = new MetaResource();
+		:}
+
+		;
+
+SyncTaskDecl	::=
+		Ids:id1 SyncTaskDecl:meta1
+		{:
+		((MetaSyncTask)meta1).setId( (String) id1);
+                RESULT = meta1;
+		:}
+
+		|
+		ATRESOURCE Ids:id1 MAPS Ids:id2 SyncTaskDecl:meta1
+		{:
+		((MetaSyncTask)meta1).addResourceMap( (String) id1, (String) id2);
+                RESULT = meta1;
+		:}
+
+		|
+		ATLOCK Ids:id1 MAPS Ids:id2 SyncTaskDecl:meta1
+		{:
+		((MetaSyncTask)meta1).addLockMap( (String) id1, (String) id2);
+		RESULT = meta1;
+		:}
+
+		|
+		ATCONDVAR Ids:id1 MAPS Ids:id2 SyncTaskDecl:meta1
+		{:
+		((MetaSyncTask)meta1).addCondVarMap( (String) id1, (String) id2);
+		RESULT = meta1;
+		:}
+
+		|
+		ATMONITOR Ids:id1 MAPS Ids:id2 SyncTaskDecl:meta1
+		{:
+		((MetaSyncTask)meta1).addMonitorMap( (String) id1, (String) id2);
+		RESULT = meta1;
+		:}
+
+
+		|
+		ATTHREAD Ints:int1 TYPEOF Ids:id1 SyncTaskDecl:meta1
+		{:
+		((MetaSyncTask)meta1).addStartThread( (String) id1, (Integer) int1);
+		RESULT = meta1;
+		:}
+
+		|
+		{:
+		RESULT = new MetaSyncTask();
+		:}
+
+		;
+
+ThreadDecl	::=
+		Ids:id1
+		{:
+		RESULT = new MetaThread( (String) id1);
+		:}
+
+                |
+		Ints:int1 TYPEOF Ids:id1
+		{:
+		RESULT = new MetaThread( (String) id1, (Integer) int1);
+		:}
+
+		|
+		Ids:id1 TYPEOF Ids:id2
+		{:
+		RESULT = new MetaThread( (String) id2, (String) id1);
+		:}
+
+		|
+		{:
+		RESULT = new MetaThread();
+		:}
+
+		;
+
+SyncBlockDecl	::=
+		Ids:id1 SyncBlockDecl:meta1
+		{:
+		((MetaSyncBlock)meta1).setId( (String) id1);
+		RESULT = meta1;
+		:}
+
+		|
+		ATRESOURCE Ids:id1 TYPEOF Ids:id2 SyncBlockDecl:meta1
+		{:
+		((MetaSyncBlock)meta1).addResourceMap( (String) id1, (String) id2);
+		RESULT = meta1;
+		:}
+
+		|
+		ATLOCK Ids:id1 MAPS Ids:id2 SyncBlockDecl:meta1
+		{:
+		((MetaSyncBlock)meta1).addLockMap( (String) id1, (String) id2);
+		RESULT = meta1;
+		:}
+
+		|
+		ATCONDVAR Ids:id1 MAPS Ids:id2 SyncBlockDecl:meta1
+		{:
+		((MetaSyncBlock)meta1).addCondVarMap( (String) id1, (String) id2);
+		RESULT = meta1;
+		:}
+
+		|
+		ATMONITOR Ids:id1 MAPS Ids:id2 SyncBlockDecl:meta1
+		{:
+		((MetaSyncBlock)meta1).addMonitorMap( (String) id1, (String) id2);
+		RESULT = meta1;
+		:}
+
+
+		|
+		ATTHREADTYPE Ids:id1 SyncBlockDecl:meta1
+		{:
+		((MetaSyncBlock)meta1).setThreadType( (String) id1);
+		RESULT = meta1;
+		:}
+
+		|
+		{:
+		RESULT = new MetaSyncBlock();
+		:}
+
+		;
+
+Codes		::=
+		CODE:code1
+		{:
+		RESULT = new String( code1.toString() );
+		:}
+
+		;
+
+Ids		::=
+		ID:st1
+		{:
+		RESULT = new String( st1.toString() );
+		:}
+
+		;
+
+Ints		::=
+		INT:st1
+		{:
+		RESULT = new Integer( Integer.parseInt( st1.toString() ) );
+		:}
+
+		;

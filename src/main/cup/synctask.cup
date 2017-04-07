@@ -1,0 +1,270 @@
+/**
+* SyncTask syntatic parser
+* Author: Pedro de Carvalho Gomes <pedrodcg@csc.kth.se>
+*/
+
+package stave.synctask.ast;
+
+import java_cup.runtime.*;
+
+// Controls if print debug or not
+action code {: static boolean printDebug = true; :};
+
+/* Preliminaries to set up and use the scanner.
+init with {: SyncTaskScanner.init();              :};
+scan with {: return SyncTaskScanner.next_token(); :};
+*/
+
+/**** Definitions of terminals ****/
+/* Reserved Words */
+terminal THREAD, SYNCHRONIZED, MAIN, START;
+/* Stmt */
+terminal SKIP, NOTIFY, NOTIFYALL, WAIT, IF, ELSE, WHILE;
+/* Type */
+terminal INT, BOOL, LOCK, COND;
+/* Const */
+terminal TRUE, FALSE;
+/* Delimiters */
+terminal OPAR, CPAR, OCBR, CCBR, COMM, SCOL;
+/* Operators */
+terminal NEGA, ASSG, LAND, LOOR, LOWT, BIGT, ADDI, MINU, EQUA, NTEQ, INCR, DECR;
+/* Int macros */
+terminal MIN, MAX;
+/* IDs and numbers */
+terminal ID, INTEGER;
+
+/* Definition of non-terminals */
+non terminal Program;
+non terminal ThreadType_star, ThreadType;
+non terminal SyncBlock_star, SyncBlock, Block, Stmt_star, Stmt;
+non terminal Main,VarDecl_star, VarDecl, StartThread_star, StartThread;
+non terminal Exp, BOOLEAN, Ids;
+
+/* Precedence definitions */
+
+/* Assignment is performed only after
+* other operations have been performed */
+precedence nonassoc ASSG;
+
+/* Boolean operators have lower precedence*/
+precedence left LOOR;
+precedence left LAND;
+
+/* Comparison operation */
+precedence left LOWT, BIGT, EQUA, NTEQ;
+
+/* Check */
+precedence right NEGA;
+
+/* Arithmetic operators preference */
+precedence left ADDI, MINU;
+
+/* Definition of starting non-terminal */
+start with Program;
+
+Program		::=
+		ThreadType_star:tl1 Main:md1 
+		{:  RESULT = new Program( (ThreadTypeStar) tl1, (Main) md1); :}
+
+                |
+		Stmt:st1
+		{:
+		/* "Rabbit hole" to allow the parsing of SyncTask expressions by the ST extractor */
+		RESULT = st1;
+		:}
+
+                |
+		Exp:e1
+		{:
+		/* "Rabbit hole" to allow the parsing of SyncTask expressions by the ST extractor */
+		RESULT = e1;
+		:}
+
+		;
+
+ThreadType_star	::=
+		ThreadType_star:ttl1 ThreadType:tt1 
+		{:
+		((ThreadTypeStar)ttl1).addThreadType( (ThreadType) tt1);
+		RESULT = ttl1;
+		:}
+
+		| 
+		{:  RESULT = new ThreadTypeStar(); :}
+		;
+
+ThreadType	::=
+		THREAD Ids:tn1 OCBR SyncBlock_star:sl1 CCBR
+		{:  RESULT = new ThreadType( (String) tn1, (SyncBlockStar) sl1); :}
+		;
+
+SyncBlock_star	::=
+		SyncBlock_star:bl1 SyncBlock:sb1 
+		{:
+		((SyncBlockStar)bl1).addSyncBlock( (SyncBlockStmt) sb1);
+		RESULT =  bl1;
+		:}
+
+		| 
+		{:  RESULT = new SyncBlockStar(); :}
+		;
+
+SyncBlock	::=
+		SYNCHRONIZED OPAR Ids:vn1 CPAR Block:bs1
+		{:  RESULT = new SyncBlockStmt( (String) vn1, (BlockStmt) bs1); :}
+		;
+
+Block		::=
+		OCBR Stmt_star:sl1 CCBR 
+		{:  RESULT = new BlockStmt( (StmtStar) sl1); :}
+		;
+
+Stmt_star       ::= Stmt_star:sl1 Stmt:st1
+                {:
+		((StmtStar)sl1).addStmt( (Stmt) st1);
+		RESULT = sl1;
+		:}
+
+                |
+                {:  RESULT = new StmtStar();  :}
+                ;
+
+Stmt            ::= Block:sb1
+                {:  RESULT = sb1; :}
+
+                | SyncBlock:sb1
+                {:  RESULT = sb1; :}
+
+                | Exp:ex1 ASSG Exp:ex2 SCOL
+                {:  RESULT = new AssignStmt( (VarNameExpr) ex1, (Expr) ex2);  :}
+
+                | SKIP SCOL
+                {:  RESULT = new SkipStmt();  :}
+
+                | NOTIFYALL OPAR Ids:id1 CPAR SCOL
+                {:  RESULT = new NotifyAllStmt( (String)  id1);  :}
+
+                | NOTIFY OPAR Ids:id1 CPAR SCOL
+                {:  RESULT = new NotifyStmt( (String)  id1);  :}
+
+                | WAIT OPAR Ids:id1 CPAR SCOL
+                {:  RESULT = new WaitStmt( (String) id1);  :}
+
+                | WHILE OPAR Exp:ce1 CPAR Stmt:st1
+                {:  RESULT = new WhileStmt( (Expr) ce1, (Stmt) st1);  :}
+
+                | IF OPAR Exp:ce1 CPAR Stmt:st1 ELSE Stmt:st2
+                {:  RESULT = new IfElseStmt( (Expr) ce1, (Stmt) st1, (Stmt) st2);  :}
+		;
+
+Main		::=
+		MAIN OCBR VarDecl_star:vdl1 StartThread_star:sts1 CCBR
+		{:  RESULT = new Main( (VarDeclStar) vdl1, (StartThreadStar) sts1); :}
+		;
+
+VarDecl_star	::=
+		VarDecl_star:vl1 VarDecl:vn1
+		{:
+		((VarDeclStar)vl1).addVarDecl( (VarDecl) vn1);
+		RESULT = vl1;
+		:}
+
+		| 
+		{:  RESULT = new VarDeclStar(); :}
+		;
+
+VarDecl		::=
+		BOOL Ids:vn1 OPAR BOOLEAN:bc1 CPAR SCOL
+		{:  RESULT = new BoolDecl( (String) vn1, ((ConstBoolExpr)bc1).getValue()); :}
+
+		| INT Ids:vn1 OPAR INTEGER:int1 COMM INTEGER:int2 COMM INTEGER:int3 CPAR SCOL
+		{:  RESULT = new IntDecl( (String) vn1, Integer.parseInt( (String) int1), Integer.parseInt( (String) int2), Integer.parseInt( (String) int3)); :}
+
+		| LOCK Ids:vn1 OPAR CPAR SCOL
+		{:  RESULT = new LockDecl( (String) vn1); :}
+
+		| COND Ids:vn1 OPAR Ids:vn2 CPAR SCOL
+		{:  RESULT = new CondDecl( (String) vn1, (String) vn2); :}
+		;
+
+StartThread_star::=
+		StartThread_star:sts1 StartThread:vn1
+		{:
+		((StartThreadStar)sts1).addStartThread( (StartThread) vn1);
+		RESULT = sts1;
+		:}
+
+		| 
+		{:  RESULT = new StartThreadStar(); :}
+		;
+
+StartThread	::=
+		START OPAR INTEGER:ic1 COMM Ids:vn1 CPAR SCOL
+		{:  RESULT = new StartThread( Integer.parseInt( (String) ic1), (String) vn1); :}
+		;
+
+Exp		::=
+		Exp:e1 LAND:op1 Exp:e2
+		{:  RESULT = new BopExpr( (Expr) e1, (Expr) e2, Expr.Op.LAND); :}
+
+                | Exp:e1 LOOR:op1 Exp:e2
+		{:  RESULT = new BopExpr( (Expr) e1, (Expr) e2, Expr.Op.LOOR); :}
+
+                | Exp:e1 ADDI:op1 Exp:e2
+		{:  RESULT = new BopExpr( (Expr) e1, (Expr) e2, Expr.Op.ADDI); :}
+
+                | Exp:e1 MINU:op1 Exp:e2
+		{:  RESULT = new BopExpr( (Expr) e1, (Expr) e2, Expr.Op.MINU); :}
+
+                | Exp:e1 BIGT:op1 Exp:e2
+		{:  RESULT = new BopExpr( (Expr) e1, (Expr) e2, Expr.Op.BIGT); :}
+
+                | Exp:e1 EQUA:op1 Exp:e2
+		{:  RESULT = new BopExpr( (Expr) e1, (Expr) e2, Expr.Op.EQUA); :}
+
+                | Exp:e1 NTEQ:op1 Exp:e2
+		{:  RESULT = new BopExpr( (Expr) e1, (Expr) e2, Expr.Op.NTEQ); :}
+
+                | Exp:e1 LOWT:op1 Exp:e2
+		{:  RESULT = new BopExpr( (Expr) e1, (Expr) e2, Expr.Op.LOWT); :}
+
+                | NEGA:op1 Exp:e1
+		{:  RESULT = new UopExpr( (Expr) e1, Expr.Op.NEGA); :}
+
+                | Exp:e1 INCR:op1 
+		{:  RESULT = new UopExpr( (Expr) e1, Expr.Op.INCR); :}
+
+                | Exp:e1 DECR:op1 
+		{:  RESULT = new UopExpr( (Expr) e1, Expr.Op.DECR); :}
+
+		| BOOLEAN:bc1
+		{:  RESULT = bc1; :}
+
+		| INTEGER:int1
+		{:  RESULT = new ConstIntExpr( Integer.parseInt( (String) int1) ); :}
+
+		| MIN OPAR Ids:id1 CPAR
+		{:  RESULT = new MinExpr( id1.toString()); :}
+
+		| MAX OPAR Ids:id1 CPAR
+		{:  RESULT = new MaxExpr( id1.toString()); :}
+
+		| Ids:id1
+		{:  RESULT = new VarNameExpr( id1.toString()); :}
+
+		| OPAR Exp:ex1 CPAR
+		{:  RESULT = (Expr) ex1; :}
+		;
+
+BOOLEAN	::=
+		TRUE
+		{:  RESULT = new ConstBoolExpr( true ); :}
+
+		| FALSE
+		{:  RESULT = new ConstBoolExpr( false ); :}
+		;
+
+Ids		::= ID:id1
+		{:  RESULT = new String( id1.toString() ); :}
+		;
+
