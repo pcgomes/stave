@@ -1,0 +1,56 @@
+-------- Terminates --------
+// A
+synchronized(mon) {
+   while ! (x && y)) {
+      mon.wait();
+   }
+   x = false;
+   mon.notifyAll();
+}
+
+// B
+synchronized(mon) {
+   while ! ( !x || y ) {
+
+      mon.wait();
+   }
+   x = true;
+   mon.notify();
+}
+
+// C
+synchronized(mon) {
+   while !(x || y) {
+      mon.wait();
+   }
+   y = true;
+   mon.notifyAll();
+}
+-------- May Block --------
+// T0
+synchronized(mon) {
+   while ! (x && y)) {
+      mon.wait();
+   }
+   x = false;
+   mon.notifyAll();
+}
+===============
+// T1
+synchronized(mon) {
+   while ! ( !x && y ) {
+      mon.wait();
+   }
+   x = true;
+   mon.notify();
+}
+================
+// T2
+synchronized(mon) {
+   while !(x || !y) {
+
+      mon.wait();
+   }
+   y = true;
+   mon.notifyAll();
+}
