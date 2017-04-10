@@ -96,7 +96,7 @@
     <binders/>
     <monitorblock name="Monitors"/>
     <page id="ID11">
-      <pageattr name="GlobalDeclarations0"/>
+      <pageattr name="SyncTask0"/>
       <constraints/>
       <place id="ID13">
         <posattr x="0" y="126"/>
@@ -147,7 +147,7 @@
         </initmark>
       </place>
       <place id="ID18">
-        <posattr x="-126" y="0"/>
+        <posattr x="0" y="0"/>
         <marking x="0.000000" y="0.000000"/>
         <token x="-10.000000" y="0.000000"/>
         <ellipse h="40.000000" w="60.000000"/>
@@ -156,21 +156,21 @@
         <fillattr colour="White" filled="false" pattern=""/>
         <text>mylock</text>
         <type id="ID19">
-          <posattr x="-76" y="-25"/>
+          <posattr x="50" y="-25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">LOCK</text>
         </type>
         <initmark>
-          <posattr x="-76" y="25"/>
+          <posattr x="50" y="25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">1`()</text>
         </initmark>
         <fusioninfo id="ID20" name="mylock">
-          <posattr x="-126" y="-20"/>
+          <posattr x="0" y="-20"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
@@ -207,7 +207,7 @@
         </fusioninfo>
       </place>
       <place id="ID27">
-        <posattr x="0" y="0"/>
+        <posattr x="-126" y="0"/>
         <marking x="0.000000" y="0.000000"/>
         <token x="-10.000000" y="0.000000"/>
         <ellipse h="40.000000" w="60.000000"/>
@@ -216,21 +216,21 @@
         <fillattr colour="White" filled="false" pattern=""/>
         <text>twaiting</text>
         <type id="ID28">
-          <posattr x="50" y="-25"/>
+          <posattr x="-76" y="-25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">INT0_10</text>
         </type>
         <initmark>
-          <posattr x="50" y="25"/>
+          <posattr x="-76" y="25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">1`0</text>
         </initmark>
         <fusioninfo id="ID29" name="twaiting">
-          <posattr x="0" y="-20"/>
+          <posattr x="-126" y="-20"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>

@@ -62,8 +62,8 @@
         <type>
           <id>CONDITION</id>
         </type>
-        <id>has_socket</id>
-        <layout>var has_socket: CONDITION;</layout>
+        <id>socket_open</id>
+        <layout>var socket_open: CONDITION;</layout>
       </var>
     </globbox>
     <instances>
@@ -171,36 +171,6 @@
         </fusioninfo>
       </place>
       <place id="ID22">
-        <posattr x="-126" y="0"/>
-        <marking x="0.000000" y="0.000000"/>
-        <token x="-10.000000" y="0.000000"/>
-        <ellipse h="40.000000" w="60.000000"/>
-        <textattr bold="false" colour="Black"/>
-        <lineattr colour="Black" thick="1" type="Solid"/>
-        <fillattr colour="White" filled="false" pattern=""/>
-        <text>has_socket</text>
-        <type id="ID23">
-          <posattr x="-76" y="-25"/>
-          <textattr bold="false" colour="Black"/>
-          <lineattr colour="Black" thick="0" type="Solid"/>
-          <fillattr colour="White" filled="false" pattern="Solid"/>
-          <text tool="CPN Tools" version="4.0.1">CONDITION</text>
-        </type>
-        <initmark>
-          <posattr x="-76" y="25"/>
-          <textattr bold="false" colour="Black"/>
-          <lineattr colour="Black" thick="0" type="Solid"/>
-          <fillattr colour="White" filled="false" pattern="Solid"/>
-          <text tool="CPN Tools" version="4.0.1"/>
-        </initmark>
-        <fusioninfo id="ID24" name="has_socket">
-          <posattr x="-126" y="-20"/>
-          <textattr bold="false" colour="Black"/>
-          <lineattr colour="Black" thick="0" type="Solid"/>
-          <fillattr colour="White" filled="false" pattern="Solid"/>
-        </fusioninfo>
-      </place>
-      <place id="ID26">
         <posattr x="126" y="0"/>
         <marking x="0.000000" y="0.000000"/>
         <token x="-10.000000" y="0.000000"/>
@@ -209,7 +179,7 @@
         <lineattr colour="Black" thick="1" type="Solid"/>
         <fillattr colour="White" filled="false" pattern=""/>
         <text>lock</text>
-        <type id="ID27">
+        <type id="ID23">
           <posattr x="176" y="-25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
@@ -223,8 +193,38 @@
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">1`()</text>
         </initmark>
-        <fusioninfo id="ID28" name="lock">
+        <fusioninfo id="ID24" name="lock">
           <posattr x="126" y="-20"/>
+          <textattr bold="false" colour="Black"/>
+          <lineattr colour="Black" thick="0" type="Solid"/>
+          <fillattr colour="White" filled="false" pattern="Solid"/>
+        </fusioninfo>
+      </place>
+      <place id="ID26">
+        <posattr x="-126" y="0"/>
+        <marking x="0.000000" y="0.000000"/>
+        <token x="-10.000000" y="0.000000"/>
+        <ellipse h="40.000000" w="60.000000"/>
+        <textattr bold="false" colour="Black"/>
+        <lineattr colour="Black" thick="1" type="Solid"/>
+        <fillattr colour="White" filled="false" pattern=""/>
+        <text>socket_open</text>
+        <type id="ID27">
+          <posattr x="-76" y="-25"/>
+          <textattr bold="false" colour="Black"/>
+          <lineattr colour="Black" thick="0" type="Solid"/>
+          <fillattr colour="White" filled="false" pattern="Solid"/>
+          <text tool="CPN Tools" version="4.0.1">CONDITION</text>
+        </type>
+        <initmark>
+          <posattr x="-76" y="25"/>
+          <textattr bold="false" colour="Black"/>
+          <lineattr colour="Black" thick="0" type="Solid"/>
+          <fillattr colour="White" filled="false" pattern="Solid"/>
+          <text tool="CPN Tools" version="4.0.1"/>
+        </initmark>
+        <fusioninfo id="ID28" name="socket_open">
+          <posattr x="-126" y="-20"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
@@ -300,16 +300,16 @@
       <fusion_elm idref="ID121"/>
       <fusion_elm idref="ID261"/>
     </fusion>
-    <fusion id="ID21" name="has_socket">
+    <fusion id="ID21" name="lock">
       <fusion_elm idref="ID22"/>
-      <fusion_elm idref="ID136"/>
-      <fusion_elm idref="ID280"/>
-    </fusion>
-    <fusion id="ID25" name="lock">
-      <fusion_elm idref="ID26"/>
       <fusion_elm idref="ID79"/>
       <fusion_elm idref="ID218"/>
       <fusion_elm idref="ID285"/>
+    </fusion>
+    <fusion id="ID25" name="socket_open">
+      <fusion_elm idref="ID26"/>
+      <fusion_elm idref="ID136"/>
+      <fusion_elm idref="ID280"/>
     </fusion>
     <fusion id="ID29" name="awaken_LogServer">
       <fusion_elm idref="ID153"/>
@@ -1029,7 +1029,7 @@
       </arc>
     </page>
     <page id="ID129">
-      <pageattr name="Notify_LogServer5"/>
+      <pageattr name="NotifyAll_LogServer5"/>
       <constraints/>
       <place id="ID130">
         <posattr x="-126" y="126"/>
@@ -1067,7 +1067,7 @@
         <textattr bold="false" colour="Black"/>
         <lineattr colour="Black" thick="1" type="Solid"/>
         <fillattr colour="White" filled="false" pattern=""/>
-        <text>flagEmpty_has_socket</text>
+        <text>flagEnd_socket_open</text>
       </trans>
       <arc id="ID134" order="1" orientation="PtoT">
         <arrowattr currentcyckle="2" headsize="1.200000"/>
@@ -1090,7 +1090,7 @@
         <textattr bold="false" colour="Black"/>
         <lineattr colour="Black" thick="1" type="Solid"/>
         <fillattr colour="White" filled="false" pattern=""/>
-        <text>has_socket</text>
+        <text>socket_open</text>
         <type id="ID137">
           <posattr x="176" y="101"/>
           <textattr bold="false" colour="Black"/>
@@ -1105,7 +1105,7 @@
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1"/>
         </initmark>
-        <fusioninfo id="ID138" name="has_socket">
+        <fusioninfo id="ID138" name="socket_open">
           <posattr x="126" y="106"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
@@ -1177,7 +1177,7 @@
         <fillattr colour="White" filled="false" pattern=""/>
         <text>wake_LogServer</text>
       </trans>
-      <arc id="ID147" order="1" orientation="PtoT">
+      <arc id="ID147" order="1" orientation="TtoP">
         <arrowattr currentcyckle="2" headsize="1.200000"/>
         <posattr x="0" y="0"/>
         <textattr bold="false" colour="Black"/>
@@ -1190,16 +1190,16 @@
           <text tool="CPN Tools" version="4.0.1">1`LogServer</text>
         </annot>
       </arc>
-      <arc id="ID149" order="1" orientation="TtoP">
+      <arc id="ID149" order="1" orientation="PtoT">
         <arrowattr currentcyckle="2" headsize="1.200000"/>
         <posattr x="0" y="0"/>
         <textattr bold="false" colour="Black"/>
         <lineattr colour="Black" thick="1" type="Solid"/>
         <fillattr colour="White" filled="false" pattern=""/>
-        <placeend idref="ID141"/>
+        <placeend idref="ID130"/>
         <transend idref="ID146"/>
         <annot id="ID150">
-          <posattr x="94" y="126"/>
+          <posattr x="-31" y="189"/>
           <text tool="CPN Tools" version="4.0.1">1`LogServer</text>
         </annot>
       </arc>
@@ -1267,7 +1267,7 @@
         <fillattr colour="White" filled="false" pattern=""/>
         <text>wake_LogClient</text>
       </trans>
-      <arc id="ID159" order="1" orientation="PtoT">
+      <arc id="ID159" order="1" orientation="TtoP">
         <arrowattr currentcyckle="2" headsize="1.200000"/>
         <posattr x="0" y="0"/>
         <textattr bold="false" colour="Black"/>
@@ -1280,16 +1280,16 @@
           <text tool="CPN Tools" version="4.0.1">1`LogServer</text>
         </annot>
       </arc>
-      <arc id="ID161" order="1" orientation="TtoP">
+      <arc id="ID161" order="1" orientation="PtoT">
         <arrowattr currentcyckle="2" headsize="1.200000"/>
         <posattr x="0" y="0"/>
         <textattr bold="false" colour="Black"/>
         <lineattr colour="Black" thick="1" type="Solid"/>
         <fillattr colour="White" filled="false" pattern=""/>
-        <placeend idref="ID141"/>
+        <placeend idref="ID130"/>
         <transend idref="ID158"/>
         <annot id="ID162">
-          <posattr x="31" y="126"/>
+          <posattr x="-94" y="189"/>
           <text tool="CPN Tools" version="4.0.1">1`LogServer</text>
         </annot>
       </arc>
@@ -1808,7 +1808,7 @@
         <text>If</text>
         <cond id="ID235">
           <posattr x="-126" y="151"/>
-          <text tool="CPN Tools" version="4.0.1">not (stave.cpntools.SyncTaskCPN$VarName@1367dca)</text>
+          <text tool="CPN Tools" version="4.0.1">not (stave.cpntools.SyncTaskCPN$VarName@2b71fc7e)</text>
         </cond>
       </trans>
       <arc id="ID236" order="1" orientation="PtoT">
@@ -1926,7 +1926,7 @@
         <text>Else</text>
         <cond id="ID250">
           <posattr x="126" y="151"/>
-          <text tool="CPN Tools" version="4.0.1">not (not (stave.cpntools.SyncTaskCPN$VarName@1367dca))</text>
+          <text tool="CPN Tools" version="4.0.1">not (not (stave.cpntools.SyncTaskCPN$VarName@2b71fc7e))</text>
         </cond>
       </trans>
       <arc id="ID251" order="1" orientation="PtoT">
@@ -2127,7 +2127,7 @@
         <textattr bold="false" colour="Black"/>
         <lineattr colour="Black" thick="1" type="Solid"/>
         <fillattr colour="White" filled="false" pattern=""/>
-        <text>wait_has_socket</text>
+        <text>wait_socket_open</text>
       </trans>
       <arc id="ID278" order="1" orientation="PtoT">
         <arrowattr currentcyckle="2" headsize="1.200000"/>
@@ -2150,7 +2150,7 @@
         <textattr bold="false" colour="Black"/>
         <lineattr colour="Black" thick="1" type="Solid"/>
         <fillattr colour="White" filled="false" pattern=""/>
-        <text>has_socket</text>
+        <text>socket_open</text>
         <type id="ID281">
           <posattr x="302" y="-25"/>
           <textattr bold="false" colour="Black"/>
@@ -2165,7 +2165,7 @@
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1"/>
         </initmark>
-        <fusioninfo id="ID282" name="has_socket">
+        <fusioninfo id="ID282" name="socket_open">
           <posattr x="252" y="-20"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>

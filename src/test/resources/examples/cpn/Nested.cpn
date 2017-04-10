@@ -25,10 +25,10 @@
       <color id="ID536">
         <id>CPOINT</id>
         <enum>
-          <id>aFirst_0</id>
           <id>aFirst_1</id>
+          <id>aFirst_0</id>
         </enum>
-        <layout>colset CPOINT =  with aFirst_0 | aFirst_1;</layout>
+        <layout>colset CPOINT =  with aFirst_1 | aFirst_0;</layout>
       </color>
       <color id="ID537">
         <id>CONDITION</id>
@@ -159,7 +159,7 @@
         </initmark>
       </place>
       <place id="ID18">
-        <posattr x="-189" y="0"/>
+        <posattr x="63" y="0"/>
         <marking x="0.000000" y="0.000000"/>
         <token x="-10.000000" y="0.000000"/>
         <ellipse h="40.000000" w="60.000000"/>
@@ -168,21 +168,21 @@
         <fillattr colour="White" filled="false" pattern=""/>
         <text>aLock</text>
         <type id="ID19">
-          <posattr x="-139" y="-25"/>
+          <posattr x="113" y="-25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">LOCK</text>
         </type>
         <initmark>
-          <posattr x="-139" y="25"/>
+          <posattr x="113" y="25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">1`()</text>
         </initmark>
         <fusioninfo id="ID20" name="aLock">
-          <posattr x="-189" y="-20"/>
+          <posattr x="63" y="-20"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
@@ -219,7 +219,7 @@
         </fusioninfo>
       </place>
       <place id="ID26">
-        <posattr x="189" y="0"/>
+        <posattr x="-189" y="0"/>
         <marking x="0.000000" y="0.000000"/>
         <token x="-10.000000" y="0.000000"/>
         <ellipse h="40.000000" w="60.000000"/>
@@ -228,28 +228,28 @@
         <fillattr colour="White" filled="false" pattern=""/>
         <text>bLock</text>
         <type id="ID27">
-          <posattr x="239" y="-25"/>
+          <posattr x="-139" y="-25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">LOCK</text>
         </type>
         <initmark>
-          <posattr x="239" y="25"/>
+          <posattr x="-139" y="25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">1`()</text>
         </initmark>
         <fusioninfo id="ID28" name="bLock">
-          <posattr x="189" y="-20"/>
+          <posattr x="-189" y="-20"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
         </fusioninfo>
       </place>
       <place id="ID30">
-        <posattr x="63" y="0"/>
+        <posattr x="189" y="0"/>
         <marking x="0.000000" y="0.000000"/>
         <token x="-10.000000" y="0.000000"/>
         <ellipse h="40.000000" w="60.000000"/>
@@ -258,21 +258,21 @@
         <fillattr colour="White" filled="false" pattern=""/>
         <text>bCond</text>
         <type id="ID31">
-          <posattr x="113" y="-25"/>
+          <posattr x="239" y="-25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1">CONDITION</text>
         </type>
         <initmark>
-          <posattr x="113" y="25"/>
+          <posattr x="239" y="25"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
           <text tool="CPN Tools" version="4.0.1"/>
         </initmark>
         <fusioninfo id="ID32" name="bCond">
-          <posattr x="63" y="-20"/>
+          <posattr x="189" y="-20"/>
           <textattr bold="false" colour="Black"/>
           <lineattr colour="Black" thick="0" type="Solid"/>
           <fillattr colour="White" filled="false" pattern="Solid"/>
