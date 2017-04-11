@@ -52,7 +52,7 @@ import stave.synctask.visitor.SyncTaskToPromelaVisitor;
 /**
  * @author Pedro de Carvalho Gomes <pedrodcg@csc.kth.se>
  *
- * STaVE entry point and sequence of analyses
+ *         STaVE entry point and sequence of analyses
  */
 public class Main {
 
@@ -60,36 +60,36 @@ public class Main {
 
     static private boolean setOptions(String[] lcommand) {
 
-            Options loptions = new Options()
-                    .addOption(new Option("d", "debug", false,
-                            "print debug information (highly verbose)"))
-                    .addOption(new Option("is", "inst", false,
-                            "set input as SyncTask program"))
-                    .addOption(new Option("ij", "injava", false,
-                            "set input as annotated Java program"))
-                    .addOption(new Option("oc", "outcpn", true,
-                            "output Coloured Petri Net in CPN Tools format"))
-                    .addOption(new Option("os", "outst", true,
-                            "output SynTask program to file, and leave (requires -ij or -is)"))
-                    .addOption(new Option("oj", "outjava", true,
-                            "output annotated Java program to file, and leave. (requires -ij)"))
-                    .addOption(new Option("w", "warning", false,
-                            "print warning messages"))
-                    .addOption(new Option("op", "outprom", true,
-                            "output Promela program to file, and leave. (requires -ij or -is)"));
+        Options loptions = new Options()
+                .addOption(new Option("d", "debug", false,
+                        "print debug information (highly verbose)"))
+                .addOption(new Option("is", "inst", false,
+                        "set input as SyncTask program"))
+                .addOption(new Option("ij", "injava", false,
+                        "set input as annotated Java program"))
+                .addOption(new Option("oc", "outcpn", true,
+                        "output Coloured Petri Net in CPN Tools format"))
+                .addOption(new Option("os", "outst", true,
+                        "output SynTask program to file, and leave (requires -ij or -is)"))
+                .addOption(new Option("oj", "outjava", true,
+                        "output annotated Java program to file, and leave. (requires -ij)"))
+                .addOption(new Option("w", "warning", false,
+                        "print warning messages"))
+                .addOption(new Option("op", "outprom", true,
+                        "output Promela program to file, and leave. (requires -ij or -is)"));
 
         try {
             cmd = (new DefaultParser()).parse(loptions, lcommand);
         } catch (org.apache.commons.cli.ParseException e) {
             // TODO - Check how to get this more precisely
-            String mytoolcmd = "java [-cp jar1:jar2:...] stave.Main";
-            String myoptlist = " [options]";
+            String mytoolcmd = "java [-cp classpaths] stave.Main";
+            String myoptlist = " [options] [input_files]";
             String myheader = "Input annotated Java or SynTask source, and output Coloured Petri Nets";
             String myfooter = "\nSTaVe - More information at http://www.csc.kth.se/~pedrodcg/stave";
 
             HelpFormatter formatter = new HelpFormatter();
             //formatter.printUsage( new java.io.PrintWriter(System.out,true), 100, "java -jar synctask.jar", loptions );
-            formatter.printHelp( mytoolcmd + myoptlist, null, loptions, myfooter, false);
+            formatter.printHelp(mytoolcmd + myoptlist, null, loptions, myfooter, false);
             //formatter.printHelp(mytoolcmd + myoptlist, loptions, false);
             return (false);
         }
@@ -249,7 +249,7 @@ public class Main {
         }
 
 		/*
-		 * Resouce annotations must be processed beforehand, so that both the
+         * Resouce annotations must be processed beforehand, so that both the
 		 * thread type reader (ThreadCodeVisitor) and the initialization reader
 		 * (MainInitVisitor) know how to process a resouce type when they found
 		 * it.

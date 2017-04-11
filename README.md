@@ -14,7 +14,10 @@ Execute the following command to compile STaVe, download the dependencies to tar
 
 ## Run
 
-Execute the following command from the top-level directory to get the available options:
+The follwing commands are examples executed from the top-level local repository directory,
+and assume that STaVe was succesfully built and described above.
+
+List the command syntax and options:
 
     java -cp target/lib/\*:target/stave-1.0-SNAPSHOT.jar stave.Main --help
 
@@ -22,6 +25,14 @@ Alternatively:
 
     export CLASSPATH="target/lib/\*:target/stave-1.0-SNAPSHOT.jar";
     java stave.Main --help
+
+Process an annotated Java program as input, and output a SyncTask program:
+
+    java -cp target/lib/\*:target/stave-1.0-SNAPSHOT.jar stave.Main -os Example.st -ij Example.java
+
+Process a SyncTask program, and output a Coloured Petri net:
+
+    java -cp target/lib/\*:target/stave-1.0-SNAPSHOT.jar stave.Main -oc Example.cpn -is Example.st
 
 ## More info
 

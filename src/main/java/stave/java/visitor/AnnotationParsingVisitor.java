@@ -37,9 +37,9 @@ public abstract class AnnotationParsingVisitor extends com.sun.tools.javac.tree.
     }
 
     protected static void warning(String larg) {
-       if (mwarnings) {
-          System.err.println("Warning - " + larg);
-       }
+        if (mwarnings) {
+            System.err.println("Warning - " + larg);
+        }
     }
 
     protected static void warning(String larg, Exception e) {
@@ -51,9 +51,9 @@ public abstract class AnnotationParsingVisitor extends com.sun.tools.javac.tree.
     }
 
     protected static void debug(String larg) {
-       if (mdebug) {
-          System.err.println("Debug: - " + larg);
-       }
+        if (mdebug) {
+            System.err.println("Debug: - " + larg);
+        }
     }
 
     protected static void debug(String larg, Exception e) {
@@ -86,9 +86,9 @@ public abstract class AnnotationParsingVisitor extends com.sun.tools.javac.tree.
         java_cup.runtime.Symbol parsing_result = myparser.parse();
 
         // Check if parsing was successul. If not, report via Exception
-       if (parsing_result.value == null) {
-          throw new AnnotationParserException(lcomment);
-       }
+        if (parsing_result.value == null) {
+            throw new AnnotationParserException(lcomment);
+        }
 
         return ((MetaNode) parsing_result.value);
     }
@@ -104,9 +104,9 @@ public abstract class AnnotationParsingVisitor extends com.sun.tools.javac.tree.
             java_cup.runtime.Symbol parsing_result = myparser.parse();
 
             // Check if parsing was successul. If not, report via Exception
-           if (parsing_result.value == null) {
-              throw new ParsingSyncTaskException(lsnippet);
-           }
+            if (parsing_result.value == null) {
+                throw new ParsingSyncTaskException(lsnippet);
+            }
 
             return ((Node) parsing_result.value);
 
