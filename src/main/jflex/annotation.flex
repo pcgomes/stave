@@ -92,7 +92,6 @@ CODE = "@{"~"}@"
 "@resource"   { if (DebugLexer == true ) System.out.println("@RESOURCE");  return symbol(sym.ATRESOURCE,   yytext()); }
 "@synctask"   { if (DebugLexer == true ) System.out.println("@SYNCTASK");  return symbol(sym.ATSYNCTASK,   yytext()); }
 "@syncblock"  { if (DebugLexer == true ) System.out.println("@SYNCBLOCK"); return symbol(sym.ATSYNCBLOCK,  yytext()); }
-"@threadtype" { if (DebugLexer == true ) System.out.println("@THREADTYPE");return symbol(sym.ATTHREADTYPE, yytext()); }
 "@thread"     { if (DebugLexer == true ) System.out.println("@THREAD");    return symbol(sym.ATTHREAD,     yytext()); }
 "@value"      { if (DebugLexer == true ) System.out.println("@VALUE");     return symbol(sym.ATVALUE,      yytext()); }
 

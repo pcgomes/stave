@@ -16,7 +16,7 @@ scan with {: return JavaAnnotationScanner.next_token(); :};
 /* Reserved @ Words */
 terminal ATCAPACITY, ATCODE,      ATDEFAULTCAP, ATDEFAULTVAL;
 terminal ATINLINE,   ATOPERATION, ATPREDICATE,  ATRESOURCE;
-terminal ATSYNCTASK, ATSYNCBLOCK, ATTHREADTYPE, ATTHREAD;
+terminal ATSYNCTASK, ATSYNCBLOCK, ATTHREAD;
 terminal ATOBJECT,    ATMAP,        ATVALUE;
 terminal ATMONITOR,  ATCONDVAR,   ATLOCK;
 /* Markings */
@@ -308,13 +308,14 @@ SyncBlockDecl	::=
 		Ids:id1 SyncBlockDecl:meta1
 		{:
 		((MetaSyncBlock)meta1).setId( (String) id1);
+		((MetaSyncBlock)meta1).setThreadType( (String) id1);
 		RESULT = meta1;
 		:}
 
 		|
-		ATRESOURCE Ids:id1 TYPEOF Ids:id2 SyncBlockDecl:meta1
+		ATRESOURCE Ids:id1 TYPEOF Ids:id2 MAPS Ids:id3 SyncBlockDecl:meta1
 		{:
-		((MetaSyncBlock)meta1).addResourceMap( (String) id1, (String) id2);
+		((MetaSyncBlock)meta1).addResourceMap( (String) id1, (String) id2,  (String) id3);
 		RESULT = meta1;
 		:}
 
@@ -336,14 +337,6 @@ SyncBlockDecl	::=
 		ATMONITOR Ids:id1 MAPS Ids:id2 SyncBlockDecl:meta1
 		{:
 		((MetaSyncBlock)meta1).addMonitorMap( (String) id1, (String) id2);
-		RESULT = meta1;
-		:}
-
-
-		|
-		ATTHREADTYPE Ids:id1 SyncBlockDecl:meta1
-		{:
-		((MetaSyncBlock)meta1).setThreadType( (String) id1);
 		RESULT = meta1;
 		:}
 

@@ -248,12 +248,12 @@ public class Main {
             AnnotationParsingVisitor.setDebug(true);
         }
 
-		/*
+	/*
          * Resouce annotations must be processed beforehand, so that both the
-		 * thread type reader (ThreadCodeVisitor) and the initialization reader
-		 * (MainInitVisitor) know how to process a resouce type when they found
-		 * it.
-		 */
+	 * thread type reader (ThreadCodeVisitor) and the initialization reader
+	 * (MainInitVisitor) know how to process a resouce type when they found
+	 * it.
+	 */
         ResourceTypeVisitor mytypereader = new ResourceTypeVisitor();
         for (ListIterator<JCCompilationUnit> i = ljctreelist.listIterator(); i
                 .hasNext(); ) {
@@ -262,8 +262,7 @@ public class Main {
             mytypereader.visitTopLevel(myjctreeunit);
         }
 
-        // Initialize the Thread visitor and Main visitor with the resouce
-        // found.
+        // Initialize the Thread visitor and Main visitor with the discovered resource.
         ThreadCodeVisitor mytranslator = new ThreadCodeVisitor(
                 mytypereader.getTypeList());
         MainInitVisitor mymainreader = new MainInitVisitor(

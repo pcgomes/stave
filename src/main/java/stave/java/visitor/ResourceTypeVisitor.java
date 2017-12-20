@@ -85,6 +85,7 @@ public class ResourceTypeVisitor extends AnnotationParsingVisitor {
                 }
 
                 // Check if redeclaring a resource with same name.
+		// TODO - Duplicate means it must extend
                 if (isTypeSet(mmeta.getId())) {
                     throw new DuplicatedDeclarationException(mmeta.getId());
                 }
