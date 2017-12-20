@@ -202,6 +202,14 @@ ResourceDecl	::=
 		:}
 
 		|
+		ATVALUE Ids:id1 ResourceDecl:meta1
+                {:
+                /* Collects the expression that returns the object's state, i.e., value */
+		((MetaResource)meta1).setPredicate( (String) id1, new stave.synctask.ast.VarNameExpr( (String) id1));
+		RESULT = meta1;
+		:}
+
+		|
 		ATCAPACITY Ids:id1 ResourceDecl:meta1
                 {:
 		((MetaResource)meta1).setCapacity( (String) id1);
@@ -237,11 +245,19 @@ SyncTaskDecl	::=
 		:}
 
 		|
+		ATRESOURCE Ids:id1 TYPEOF Ids:id2 MAPS Ids:id3 SyncTaskDecl:meta1
+		{:
+		((MetaSyncTask)meta1).addResourceMap( (String) id1, (String) id2, (String) id3);
+                RESULT = meta1;
+		:}
+
+		|
 		ATRESOURCE Ids:id1 MAPS Ids:id2 SyncTaskDecl:meta1
 		{:
 		((MetaSyncTask)meta1).addResourceMap( (String) id1, (String) id2);
                 RESULT = meta1;
 		:}
+
 
 		|
 		ATLOCK Ids:id1 MAPS Ids:id2 SyncTaskDecl:meta1
@@ -316,6 +332,13 @@ SyncBlockDecl	::=
 		ATRESOURCE Ids:id1 TYPEOF Ids:id2 MAPS Ids:id3 SyncBlockDecl:meta1
 		{:
 		((MetaSyncBlock)meta1).addResourceMap( (String) id1, (String) id2,  (String) id3);
+		RESULT = meta1;
+		:}
+
+		|
+		ATRESOURCE Ids:id1 MAPS Ids:id3 SyncBlockDecl:meta1
+		{:
+		((MetaSyncBlock)meta1).addResourceMap( (String) id1, (String) id2);
 		RESULT = meta1;
 		:}
 
